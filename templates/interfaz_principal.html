@@ -1,0 +1,177 @@
+<html lang="es">
+<head>
+  <title>BlackJack</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Juego Blackjack">
+  <meta name="keywords" content="Juego Blackjack">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css?family=Rye" rel="stylesheet">
+</head>
+<body>
+  
+  <header>
+    <h1 class="titulo">
+      <span class="rojo">&hearts;</span><span class="negro">&spades;</span>
+      BlackJack
+      <span class="negro">&clubs;</span><span class="rojo">&diams;</span>
+    </h1>
+  </header>
+
+  <div id="contenido">
+    <!-- Menú lateral -->
+    <nav id="menuLateral">
+      <h2>Opciones</h2>
+      <form id="formulario">
+        <label for="cantidadJugadores">Cantidad de jugadores:</label>
+        <input type="number" id="cantidadJugadores" name="cantidadJugadores" min="1" max="4" required>
+        <br><br>
+
+        <label for="jugarContraIA">¿Deseas jugar contra IA?</label>
+        <input type="checkbox" id="jugarContraIA" name="jugarContraIA">
+        <br><br>
+        
+        <!-- Botón Jugar en la barra lateral -->
+        <button id="jugar" onclick="iniciarJuego()">Jugar</button>
+      </form>
+    </nav>
+
+    <!-- Área principal (ya no contiene el botón Jugar) -->
+    <div id="mainContent">
+      <!-- No es necesario el botón aquí -->
+    </div>
+  </div>
+
+  <footer id="pie">
+    &copy; Raúl Alfaro - Diego Araya
+  </footer>
+
+  <script>
+    function iniciarJuego() {
+      const cantidadJugadores = document.getElementById("cantidadJugadores").value;
+      const jugarContraIA = document.getElementById("jugarContraIA").checked;
+
+      if (cantidadJugadores < 1 || cantidadJugadores > 4) {
+        alert("Por favor, ingresa una cantidad de jugadores válida (de 1 a 4).");
+      } else {
+        alert("Juego Iniciado\nJugadores: " + cantidadJugadores + "\nJugar contra IA: " + (jugarContraIA ? "Sí" : "No"));
+        // Aquí puedes añadir el código para iniciar el juego, mostrar la interfaz completa, etc.
+      }
+    }
+  </script>
+</body>
+</html>
+
+<style>
+  * { 
+    max-width: 412px; 
+    align-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: #b5c99a;
+    font-family: sans-serif;
+    color: white;
+    margin: 0;
+    padding-top: 20px;
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+  }
+
+  header {
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Centra el título en el header */
+    padding: 20px 0; /* Espacio vertical dentro del header */
+    border-radius: 15px 15px 0 0; /* Bordes redondeados en la parte superior */
+    background-color: #87986A; /* Fondo del header */
+    margin-bottom: 10px; /* Espacio debajo del header */
+    position: relative; /* Para asegurarse de que todo se mantenga dentro */
+  }
+
+  h1.titulo {
+    color: white;
+    font-family: 'Rye', cursive;
+    font-size: 2.2em; /* Tamaño de la fuente reducido */
+    margin: 0;
+    text-align: center;
+  }
+
+  /* Menú lateral */
+  #menuLateral {
+    width: 200px; /* Ancho del menú */
+    background-color: #718355;
+    color: white;
+    padding: 20px;
+    position: fixed; /* Fijo en el lateral izquierdo */
+    height: 100vh; /* Altura completa */
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  #menuLateral h2 {
+    text-align: center;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+  }
+
+  #formulario {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  label {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+  }
+
+  input[type="number"], input[type="checkbox"] {
+    font-size: 1.2em;
+    padding: 5px;
+    margin-top: 5px;
+  }
+
+  /* Estilo del área principal (sin el botón Jugar) */
+  #mainContent {
+    margin-left: 220px; /* Deja espacio para el menú lateral */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+  }
+
+  button {
+    padding: 10px;
+    width: 100%;
+    font-size: 1.2em;  
+    border-radius: 15px;
+    color: #d3e8d3;
+    background-color: #b5c99a;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    margin-top: 20px; /* Separación respecto a los otros elementos */
+  }
+
+  button:disabled {
+    opacity: 0.4;
+  }
+
+  #pie {
+    font-weight: bold;
+    width: 100%;
+    padding-top: 10px;
+    height: 20px;
+    color: #70b270;
+    text-align: center;
+  }
+</style>
+
