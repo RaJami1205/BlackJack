@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <title>BlackJack</title>
@@ -16,162 +17,115 @@
       <span class="negro">&clubs;</span><span class="rojo">&diams;</span>
     </h1>
   </header>
-
+  
   <div id="contenido">
-    <!-- Menú lateral -->
-    <nav id="menuLateral">
-      <h2>Opciones</h2>
-      <form id="formulario">
-        <label for="cantidadJugadores">Cantidad de jugadores:</label>
-        <input type="number" id="cantidadJugadores" name="cantidadJugadores" min="1" max="4" required>
-        <br><br>
-
-        <label for="jugarContraIA">¿Deseas jugar contra IA?</label>
-        <input type="checkbox" id="jugarContraIA" name="jugarContraIA">
-        <br><br>
-        
-        <!-- Botón Jugar en la barra lateral -->
-        <button id="jugar" onclick="iniciarJuego()">Jugar</button>
-      </form>
-    </nav>
-
-    <!-- Área principal (ya no contiene el botón Jugar) -->
-    <div id="mainContent">
-      <!-- No es necesario el botón aquí -->
+    <div id="cartas-jugador">
+      {% for carta in cartas %}
+          <!-- Mostrar el archivo SVG correspondiente a la carta -->
+          <object data="{{ url_for('static', filename='SVG-cards-1.3/' + carta + '.svg') }}" type="image/svg+xml" style="width: 100px; margin: 10px;"></object>
+      {% endfor %}
     </div>
   </div>
 
-  <footer id="pie">
-    &copy; Raúl Alfaro - Diego Araya
-  </footer>
+  <div id="mainContent">
+    <form method="POST" action="/pedir_carta">
+      <button type="submit" id="Hit">Seguir</button>
+    </form>
 
-  <script>
-    function iniciarJuego() {
-      const cantidadJugadores = document.getElementById("cantidadJugadores").value;
-      const jugarContraIA = document.getElementById("jugarContraIA").checked;
+    <form method="POST" action="/retirarse">
+      <button type="submit" id="Stand">Parar</button>
+    </form>
 
-      if (cantidadJugadores < 1 || cantidadJugadores > 4) {
-        alert("Por favor, ingresa una cantidad de jugadores válida (de 1 a 4).");
-      } else {
-        alert("Juego Iniciado\nJugadores: " + cantidadJugadores + "\nJugar contra IA: " + (jugarContraIA ? "Sí" : "No"));
-        // Aquí puedes añadir el código para iniciar el juego, mostrar la interfaz completa, etc.
-      }
-    }
-  </script>
+    <form method="POST" action="/comenzar_partida">
+      <button type="submit" id="Play">Jugar</button>
+    </form>
+  </div>
+
 </body>
 </html>
 
 <style>
-  * { 
-    max-width: 412px; 
-    align-content: center;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    box-sizing: border-box;
-  }
+* { 
+  max-width: 412px; 
+  align-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  box-sizing: border-box;
+}
 
-  body {
-    background-color: #b5c99a;
-    font-family: sans-serif;
-    color: white;
-    margin: 0;
-    padding-top: 20px;
-    display: flex;
-    height: 100vh;
-    flex-direction: column;
-  }
+body {
+  background-color: #b5c99a;
+  font-family: sans-serif;
+  color: white;
+  margin: 0;
+  padding-top: 20px;
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+}
 
-  header {
-    width: 100%;
-    display: flex;
-    justify-content: center; /* Centra el título en el header */
-    padding: 20px 0; /* Espacio vertical dentro del header */
-    border-radius: 15px 15px 0 0; /* Bordes redondeados en la parte superior */
-    background-color: #87986A; /* Fondo del header */
-    margin-bottom: 10px; /* Espacio debajo del header */
-    position: relative; /* Para asegurarse de que todo se mantenga dentro */
-  }
+header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+  border-radius: 15px 15px 0 0;
+  background-color: #87986A;
+  margin-bottom: 10px;
+}
 
-  h1.titulo {
-    color: white;
-    font-family: 'Rye', cursive;
-    font-size: 2.2em; /* Tamaño de la fuente reducido */
-    margin: 0;
-    text-align: center;
-  }
+h1.titulo {
+  color: white;
+  font-family: 'Rye', cursive;
+  font-size: 2.2em;
+  margin: 0;
+  text-align: center;
+}
 
-  /* Menú lateral */
-  #menuLateral {
-    width: 200px; /* Ancho del menú */
-    background-color: #718355;
-    color: white;
-    padding: 20px;
-    position: fixed; /* Fijo en el lateral izquierdo */
-    height: 100vh; /* Altura completa */
-    top: 0;
-    left: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-  }
+/* Estilo del área principal (sin el panel lateral) */
+#mainContent {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  padding: 0 20px;
+  transform: translateX(-1px); /* Desplaza los botones hacia la izquierda */
+}
 
-  #menuLateral h2 {
-    text-align: center;
-    font-size: 1.5em;
-    margin-bottom: 20px;
-  }
+#mainContent form {
+  display: inline-block;
+}
 
-  #formulario {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-  }
+button {
+  padding: 10px;
+  font-size: 1.2em;
+  border-radius: 15px;
+  color: black;
+  background-color: #b5c99a;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  width: 100px;
+}
 
-  label {
-    font-size: 1.2em;
-    margin-bottom: 10px;
-  }
+button:disabled {
+  opacity: 0.4;
+}
 
-  input[type="number"], input[type="checkbox"] {
-    font-size: 1.2em;
-    padding: 5px;
-    margin-top: 5px;
-  }
+#pie {
+  font-weight: bold;
+  width: 100%;
+  padding-top: 10px;
+  height: 20px;
+  color: #70b270;
+  text-align: center;
+}
 
-  /* Estilo del área principal (sin el botón Jugar) */
-  #mainContent {
-    margin-left: 220px; /* Deja espacio para el menú lateral */
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    flex-grow: 1;
-  }
 
-  button {
-    padding: 10px;
-    width: 100%;
-    font-size: 1.2em;  
-    border-radius: 15px;
-    color: #d3e8d3;
-    background-color: #b5c99a;
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-    margin-top: 20px; /* Separación respecto a los otros elementos */
-  }
-
-  button:disabled {
-    opacity: 0.4;
-  }
-
-  #pie {
-    font-weight: bold;
-    width: 100%;
-    padding-top: 10px;
-    height: 20px;
-    color: #70b270;
-    text-align: center;
-  }
+    object {
+    width: 80px;  /* Ajusta el tamaño de las cartas */
+    height: auto; /* Mantiene la relación de aspecto de las cartas */
+    margin: 10px; /* Espacio entre las cartas */
+}
 </style>
-
