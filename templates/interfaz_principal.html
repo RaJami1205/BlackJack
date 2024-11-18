@@ -4,12 +4,10 @@
   <title>BlackJack</title>
   <meta charset="utf-8">
   <meta name="description" content="Juego Blackjack">
-  <meta name="keywords" content="Juego Blackjack">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css?family=Rye" rel="stylesheet">
 </head>
 <body>
-  
   <header>
     <h1 class="titulo">
       <span class="rojo">&hearts;</span><span class="negro">&spades;</span>
@@ -17,115 +15,210 @@
       <span class="negro">&clubs;</span><span class="rojo">&diams;</span>
     </h1>
   </header>
-  
-  <div id="contenido">
+
+  <!-- Botón "IA" en la esquina superior derecha -->
+  <button id="boton-ia">IA</button>
+
+  <!-- Sección del crupier -->
+  <section id="crupier">
+    <h2>Crupier</h2>
+    <div id="cartas-crupier"></div>
+  </section>
+
+  <!-- Contenedor general del juego -->
+  <div id="mesa">
+    <!-- IA izquierda -->
+    <section id="ia-izquierda">
+      <h2>IA 1</h2>
+      <div id="cartas-ia-izquierda"></div>
+    </section>
+
+    <!-- Área central vacía con el botón para empezar el juego -->
+    <section id="centro">
+      <form method = "POST" action ="/comenzar_partida">
+        <button type = "submit" id="inicio-juego">Empezar Juego</button>
+      </form>
+    </section>
+
+    <!-- IA derecha -->
+    <section id="ia-derecha">
+      <h2>IA 2</h2>
+      <div id="cartas-ia-derecha"></div>
+    </section>
+  </div>
+
+  <!-- Sección del jugador local -->
+  <section id="jugador">
+    <h2>Tú</h2>
     <div id="cartas-jugador">
       {% for carta in cartas %}
-          <!-- Mostrar el archivo SVG correspondiente a la carta -->
           <object data="{{ url_for('static', filename='SVG-cards-1.3/' + carta + '.svg') }}" type="image/svg+xml" style="width: 100px; margin: 10px;"></object>
       {% endfor %}
     </div>
-  </div>
-
-  <div id="mainContent">
-    <form method="POST" action="/pedir_carta">
-      <button type="submit" id="Hit">Seguir</button>
-    </form>
-
-    <form method="POST" action="/retirarse">
-      <button type="submit" id="Stand">Parar</button>
-    </form>
-
-    <form method="POST" action="/comenzar_partida">
-      <button type="submit" id="Play">Jugar</button>
-    </form>
-  </div>
-
+    <div id="acciones-jugador">
+      <button>Pedir Carta</button>
+      <button>Parar</button>
+      <button>Reiniciar</button>
+    </div>
+  </section>
+  
+  <script>
+    // Evento para el botón "Empezar Juego"
+    document.getElementById('inicio-juego').addEventListener('click', function() {
+      //event.target.disabled = true;
+      alert('¡El juego ha comenzado!');
+      // Aquí puedes agregar la lógica para iniciar el juego
+      // Puedes ocultar el botón de inicio y mostrar las cartas de los jugadores, crupier, etc.
+      document.getElementById('inicio-juego').style.display = 'none'; // Esconder el botón
+      
+    });
+  </script>
 </body>
 </html>
 
 <style>
-* { 
-  max-width: 412px; 
-  align-content: center;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
+/* Reset de estilos */
+* {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
+/* Body ocupa toda la pantalla */
 body {
-  background-color: #b5c99a;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
   font-family: sans-serif;
   color: white;
-  margin: 0;
-  padding-top: 20px;
-  display: flex;
-  height: 100vh;
-  flex-direction: column;
+  background-image: url("{{ url_for('static', filename='background.jpg') }}");
+  background-color: #3A5A40; /* Fondo verde semioscuro */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
+/* Estilo del header */
 header {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 20px 0;
-  border-radius: 15px 15px 0 0;
-  background-color: #87986A;
-  margin-bottom: 10px;
+  width: auto; /* No ocupa todo el ancho */
+  position: absolute; /* Para ubicarlo libremente */
+  top: 10px; /* Separación desde arriba */
+  left: 20px; /* Separación desde la derecha */
+  padding: 10px 20px;
+  background-color: #344E41; /* Verde más oscuro */
+  border-radius: 10px;
 }
 
 h1.titulo {
-  color: white;
   font-family: 'Rye', cursive;
-  font-size: 2.2em;
-  margin: 0;
+  font-size: 2em;
+  color: #DAD7CD; /* Beige claro */
   text-align: center;
 }
 
-/* Estilo del área principal (sin el panel lateral) */
-#mainContent {
+/* Botón IA en la esquina superior derecha */
+#boton-ia {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  font-size: 1em;
+  background-color: #588157; /* Verde más oscuro */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#boton-ia:hover {
+  background-color: #4f6c4e;
+}
+
+/* Sección del crupier */
+#crupier {
+  text-align: center;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.7);
+  margin: 10px auto;
+  border-radius: 10px;
+  width: 50%; /* Cambié el 80% a 50% para hacerlo más pequeño */
+  background-color: #A3B18A; /* Verde grisáceo suave */
+}
+
+/* Contenedor general */
+#mesa {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+/* IA izquierda */
+#ia-izquierda {
+  flex: 0.2;
+  background-color: #588157; /* Verde más oscuro */
+  padding: 10px;
+  text-align: center;
+  border-radius: 10px;
+}
+
+/* Área central vacía con botón */
+#centro {
+  flex: 0.6;
   display: flex;
   justify-content: center;
-  gap: 10px;
-  position: absolute;
-  bottom: 20px;
-  width: 100%;
-  padding: 0 20px;
-  transform: translateX(-1px); /* Desplaza los botones hacia la izquierda */
+  align-items: center;
 }
 
-#mainContent form {
-  display: inline-block;
+/* Botón "Empezar Juego" */
+#inicio-juego {
+  padding: 20px 40px;
+  font-size: 1.5em;
+  background-color: #A3B18A; /* Verde grisáceo suave */
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-button {
+#inicio-juego:hover {
+  background-color: #9aaf8b;
+}
+
+/* IA derecha */
+#ia-derecha {
+  flex: 0.2;
+  background-color: #588157; /* Verde más oscuro */
   padding: 10px;
-  font-size: 1.2em;
-  border-radius: 15px;
-  color: black;
-  background-color: #b5c99a;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-  width: 100px;
-}
-
-button:disabled {
-  opacity: 0.4;
-}
-
-#pie {
-  font-weight: bold;
-  width: 100%;
-  padding-top: 10px;
-  height: 20px;
-  color: #70b270;
   text-align: center;
+  border-radius: 10px;
 }
 
+/* Jugador local */
+#jugador {
+  text-align: center;
+  background-color: #344E41; /* Verde más oscuro */
+  padding: 10px;
+  border-radius: 10px;
+  width: 50%; /* Cambié el 100% a 50% para hacerlo más pequeño */
+  margin: 10px auto; /* Asegura que se centre horizontalmente */
+}
 
-    object {
-    width: 80px;  /* Ajusta el tamaño de las cartas */
-    height: auto; /* Mantiene la relación de aspecto de las cartas */
-    margin: 10px; /* Espacio entre las cartas */
+/* Estilo de botones */
+button {
+  margin: 5px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  background-color: #DAD7CD; /* Beige claro */
+  color: black;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #B7C29E; /* Tono intermedio entre beige y verde */
 }
 </style>
