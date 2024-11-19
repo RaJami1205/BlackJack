@@ -9,6 +9,7 @@ app.secret_key = 'ra&diegop'
 
 # Variables globales para la baraja y las cartas de los jugadores
 baraja_disponible = inicializar_baraja()
+cartas_crupier = None
 cartas_jugador = None
 cartas_IA1 = None
 cartas_IA2 = None
@@ -20,15 +21,20 @@ def index():
 @app.route('/comenzar_partida', methods=['POST'])
 def comenzar_partida():
     global baraja_disponible, cartas_jugador, cartas_IA1, cartas_IA2
+    resultado_crupier = 0
     resultado_jugador = 0
     resultado_IA1 = 0
     resultado_IA2 = 0
 
     # Inicializa la baraja y reparte las cartas
     baraja_disponible = inicializar_baraja()
+    cartas_crupier = seleccionar_cartas(baraja_disponible, 2)
     cartas_jugador = seleccionar_cartas(baraja_disponible, 2)
     cartas_IA1 = seleccionar_cartas(baraja_disponible, 2)
     cartas_IA2 = seleccionar_cartas(baraja_disponible, 2)
+
+    for carta in cartas_crupier:
+        resultado_crupier += valores.get(carta)
     
     for carta in cartas_jugador:
         resultado_jugador += valores.get(carta)
