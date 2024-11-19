@@ -30,7 +30,15 @@
     <!-- IA izquierda -->
     <section id="ia-izquierda">
       <h2>IA 1</h2>
-      <div id="cartas-ia-izquierda"></div>
+      <div id="cartas-ia-izquierda">
+        {% for carta in cartas_IA_player1 %}
+          <object data="{{ url_for('static', filename='SVG-cards-1.3/' + carta + '.svg') }}" type="image/svg+xml" style="width: 100px; margin: 10px;"></object>
+        {% endfor %}
+      </div>
+
+      <div>
+        <h2>Cantidad: {{ resultado_IA1 }}</h2>
+      </div>
     </section>
 
     <!-- Área central vacía con el botón para empezar el juego -->
@@ -43,7 +51,15 @@
     <!-- IA derecha -->
     <section id="ia-derecha">
       <h2>IA 2</h2>
-      <div id="cartas-ia-derecha"></div>
+      <div id="cartas-ia-derecha">
+        {% for carta in cartas_IA_player2 %}
+          <object data="{{ url_for('static', filename='SVG-cards-1.3/' + carta + '.svg') }}" type="image/svg+xml" style="width: 100px; margin: 10px;"></object>
+        {% endfor %}
+      </div>
+
+      <div>
+        <h2>Cantidad: {{ resultado_IA2 }}</h2>
+      </div>
     </section>
   </div>
 
@@ -51,14 +67,22 @@
   <section id="jugador">
     <h2>Tú</h2>
     <div id="cartas-jugador">
-      {% for carta in cartas %}
+      {% for carta in cartas_player %}
           <object data="{{ url_for('static', filename='SVG-cards-1.3/' + carta + '.svg') }}" type="image/svg+xml" style="width: 100px; margin: 10px;"></object>
       {% endfor %}
     </div>
     <div id="acciones-jugador">
-      <button>Pedir Carta</button>
-      <button>Parar</button>
-      <button>Reiniciar</button>
+      <form method = "POST" action ="/pedir_carta">
+        <button type = "submit" id="pedir_carta">Pedir Carta</button>
+      </form>
+
+      <form method = "POST" action ="/sentarse">
+        <button type = "submit" id="parar">Sentarse</button>
+      </form>
+
+      <div>
+        <h2>Cantidad: {{ resultado_jugador }}</h2>
+      </div>
     </div>
   </section>
   
