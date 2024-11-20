@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Perdiste!</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="loser">
+        <h1>Lo siento, tu puntuación superó 21. 😢</h1>
+        <div id="derrotados">
+            <p>Ganadores:</p>
+            {% for jugador in lista_ganadores %}
+                <a>jugador</a>
+              {% endfor %}
+          </div>
+        <a href="{{ url_for('index') }}">Volver a la página principal</a>
+    </div>
+</body>
+</html>
+
+<style>
+    /* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #222; /* Fondo oscuro */
+    color: #fff; /* Texto blanco */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 5px #000;
+}
+
+p {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+a {
+    display: inline-block;
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #007bff;
+    text-decoration: none;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    transition: background-color 0.3s ease;
+}
+
+a:hover {
+    background-color: #0056b3;
+}
+
+/* Perdiste página */
+.loser {
+    background-color: #dc3545; /* Rojo error */
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(255, 0, 0, 0.5);
+}
+</style>
